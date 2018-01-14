@@ -13,6 +13,7 @@
     "express": "^4.16.2"
   },
   "devDependencies": {
+    "faker": "^4.1.0",
     "nodemon": "^1.14.11"
   }
 }

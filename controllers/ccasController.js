@@ -1,8 +1,11 @@
 'use strict';
 
-
 var mongoose = require('mongoose'),
-		Customer = mongoose.model('Customer');
+		Schema = mongoose.Schema,
+		Customer = mongoose.model('Customer'),
+		Order = mongoose.model('Order');
+
+/* Customer functions */
 
 exports.list_all_customers = function(req, res) {
 	Customer.find({}, function(err, customer) {
@@ -12,27 +15,24 @@ exports.list_all_customers = function(req, res) {
 			});
 };
 
-
-
-
 exports.create_a_customer = function(req, res) {
 	var new_customer = new Customer(req.body);
 	new_customer.save(function(err, customer) {
-			if (err)
-			res.send(err);
-			res.json(customer);
-			});
-};
-
-
-exports.read_a_customer = function(req, res) {
-	Customer.findById(req.params.customerId, function(err, customer) {
 			if (err)
 				res.send(err);
 			res.json(customer);
 			});
 };
 
+
+exports.read_a_customer = function(req, res) {
+	Customer.findById(req.params.customerId, function(err, customer) {		
+			console.log("error : read_a_customer" + err);
+			if (err)
+				res.send(err);
+			res.json(customer);
+			});
+};
 
 exports.update_a_customer = function(req, res) {
 	Customer.findOneAndUpdate({_id: req.params.customerId}, req.body, {new: true}, function(err, customer) {
@@ -49,3 +49,54 @@ exports.delete_a_customer = function(req, res) {
 			res.json({ message: 'Customer successfully deleted' });
 		});
 };
+
+
+/* Order functions */
+
+exports.list_all_orders = function(req, res) {
+	Order.find({}, function(err, order) {
+			if (err)
+				res.send(err);
+			res.json(order);
+			});
+};
+
+
+exports.create_an_order = function(req, res) {
+	var new_order = new Order(req.body);
+	//if Customer.findById
+	const  custId  = req.body.customerId;
+	console.log("Customer id:" + custId);
+	try {
+	//console.log("Type is ----"+typeof(customerId));
+	//if(typeof(customerId) !== Schema.ObjectId){
+	//	throw new Error('Incorrect typecasting. CustomerId is not of ObjectId type');
+	//}
+	Customer.findById(req.body.customerId, function(err,data){
+		console.log("Data is -- " + data);
+		if(err){
+		  throw err;
+			res.send(err); 
+			console.log(JSON.stringify(err));
+
+		}
+		if(data){
+			new_order.save(function(err, order) {
+				if (err)
+					res.send(err);
+				res.json(order);
+				});
+			}
+			else{
+				console.log("Invalid CustomerId. CustomerId does not exist in the database");
+				res.send("Invalid CustomerId. CustomerId does not exist in the database");
+			}
+	});
+	}
+
+	catch(err){
+		console.log('Error while adding to database',err);}
+	return
+};
+
+
