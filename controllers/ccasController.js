@@ -27,7 +27,6 @@ exports.create_a_customer = function(req, res) {
 
 exports.read_a_customer = function(req, res) {
 	Customer.findById(req.params.customerId, function(err, customer) {		
-			console.log("error : read_a_customer" + err);
 			if (err)
 				res.send(err);
 			res.json(customer);
@@ -73,7 +72,6 @@ exports.create_an_order = function(req, res) {
 	//	throw new Error('Incorrect typecasting. CustomerId is not of ObjectId type');
 	//}
 	Customer.findById(req.body.customerId, function(err,data){
-		console.log("Data is -- " + data);
 		if(err){
 		  throw err;
 			res.send(err); 
@@ -98,5 +96,31 @@ exports.create_an_order = function(req, res) {
 		console.log('Error while adding to database',err);}
 	return
 };
+
+
+exports.read_an_order = function(req, res) {
+	Order.findById(req.params.orderId, function(err, order) {		
+			if (err)
+				res.send(err);
+			res.json(order);
+			});
+};
+
+exports.update_an_order = function(req, res) {
+	Order.findOneAndUpdate({_id: req.params.orderId}, req.body, {new: true}, function(err, order) {
+			if (err)
+				res.send(err);
+			res.json(order);
+		});
+};
+
+exports.delete_an_order = function(req, res) {
+	Order.remove({_id: req.params.orderId	}, function(err, order) {
+			if (err)
+				res.send(err);
+			res.json({ message: 'Order successfully deleted' });
+		});
+};
+
 
 

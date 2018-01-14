@@ -18,9 +18,9 @@ module.exports = function(app) {
 		.get(ccas.list_all_orders)
 		.post(ccas.create_an_order);
 
-//	app.route('/order/:orderId)
-//		.get(ccas.read_an_order)
-//		.put(ccas.update_an_order)
-//		.delete(ccas.delete_an_order);
+	app.route('/order/:orderId')
+		.get(ccas.read_an_order)
+		.put(ccas.update_an_order)
+		.delete(ccas.delete_an_order);
 };
 
