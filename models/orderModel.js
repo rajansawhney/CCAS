@@ -19,8 +19,10 @@ var OrderSchema = new Schema({
 	customerId: {
 		type: Schema.ObjectId,
 		required: 'Kindly enter your customerId'
+	},
+	supplierId: {
+		type: "number" 
 	}
-
 });
 
 module.exports = mongoose.model('Order', OrderSchema);

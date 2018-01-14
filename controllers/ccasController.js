@@ -76,9 +76,14 @@ exports.create_an_order = function(req, res) {
 		  throw err;
 			res.send(err); 
 			console.log(JSON.stringify(err));
-
 		}
 		if(data){
+			if(["acme","acme autos"].includes((req.body.make).toLowerCase()))
+				new_order.supplierId = 111;
+			else if(["rainier","rainier transportation solution","rts"].includes((req.body.make).toLowerCase()))
+				new_order.supplierId = 222;
+			else
+				res.send("Incorrect \"Make\" entered. Enter either ACME Autos or Rainier Transportation Solution");
 			new_order.save(function(err, order) {
 				if (err)
 					res.send(err);
@@ -86,7 +91,7 @@ exports.create_an_order = function(req, res) {
 				});
 			}
 			else{
-				console.log("Invalid CustomerId. CustomerId does not exist in the database");
+				//console.log("Invalid CustomerId. CustomerId does not exist in the database");
 				res.send("Invalid CustomerId. CustomerId does not exist in the database");
 			}
 	});
