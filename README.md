@@ -10,7 +10,9 @@ communicate with. The purpose of this service will be to take an order and send 
 appropriate supplier for delivery.
 
 ## Project Workflow
-	1.	Customer provides {customer_id, make, model, package} as request to Central Cascade Automotive Sales(CCAS). Further customer details stored with CCAS – customer_id, customer_name, customer_address
+	1.	Customer provides {customer_id, make, model, package} as request to Central Cascade i
+			Automotive Sales(CCAS). 
+			Further customer details stored with CCAS – customer_id, customer_name, customer_address
 
 	2.	CCAS validates customer_id against stored customer information. If the customer_id is
 			invalid -> stop request.
@@ -22,11 +24,11 @@ appropriate supplier for delivery.
 				-	If api_key is invalid -> stop request
 				-	Else, Acme sends back {order_id}
 
-	2.	If make is “Rainer”
-			-	Send token request to Rainier using “storefront”
-			-	Rainier responds with {nonce_token}
-			-	CCAS posts request to Rainier with {token, model, package}
-			-	Rainier replies back with {order_id}
+			2.	If make is “Rainer”
+				-	Send token request to Rainier using “storefront”
+				-	Rainier responds with {nonce_token}
+				-	CCAS posts request to Rainier with {token, model, package}
+				-	Rainier replies back with {order_id}
 
 	4.	Store order details for internal use: 
 			{order_id, customer_id, supplier_id, make, model, package} 
