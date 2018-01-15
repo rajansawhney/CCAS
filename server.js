@@ -4,7 +4,7 @@ var express = require('express'),
 		mongoose = require('mongoose'),
 		Customer = require('./models/customerModel'), //created model loading here
 		Order = require('./models/orderModel'),
-		
+		Supplier = require('./models/supplierModel'),	
 		bodyParser = require('body-parser');
 
 // mongoose instance connection url connection

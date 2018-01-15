@@ -22,5 +22,16 @@ module.exports = function(app) {
 		.get(ccas.read_an_order)
 		.put(ccas.update_an_order)
 		.delete(ccas.delete_an_order);
+
+	/* Supplier */
+	app.route('/supplier')
+		.get(ccas.list_all_suppliers)
+		.post(ccas.create_a_supplier)
+	
+	app.route('/supplier/supplierId')
+		.get(ccas.read_a_supplier)
+		.put(ccas.update_a_supplier)
+		.delete(ccas.delete_a_supplier)
+
 };
 
