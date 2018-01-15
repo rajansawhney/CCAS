@@ -78,6 +78,7 @@ exports.create_an_order = function(req, res) {
 				res.send(err); 
 				console.log(JSON.stringify(err));
 			}
+			//If data exists against received customerId
 			if(data){
 				if(["acme","acme autos"].includes((req.body.make).toLowerCase()))
 					new_order.supplierId = 111;
@@ -85,6 +86,13 @@ exports.create_an_order = function(req, res) {
 					new_order.supplierId = 222;
 				else
 					res.send("Incorrect \"Make\" entered. Enter either ACME Autos or Rainier Transportation Solution");
+
+				//Get orderId number from respective supplier
+				if(new_order.supplierId === 111)
+					
+					
+
+				//save order in the database
 				new_order.save(function(err, order) {
 					if (err)
 						res.send(err);
