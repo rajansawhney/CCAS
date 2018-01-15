@@ -11,11 +11,11 @@ appropriate supplier for delivery.
 
 ## Project Workflow
 	1.	Customer provides {customer_id, make, model, package} as request to Central Cascade
-	Automotive Sales(CCAS). 
-	Further customer details stored with CCAS – customer_id, customer_name, customer_address
+		Automotive Sales(CCAS). 
+		Further customer details stored with CCAS – customer_id, customer_name, customer_address
 
 	2.	CCAS validates customer_id against stored customer information. If the customer_id is
-	invalid -> stop request.
+		invalid -> stop request.
 
 	3.	If the customer_id and make are valid, do the following depending on the “make”
 
@@ -31,7 +31,7 @@ appropriate supplier for delivery.
 				-	Rainier replies back with {order_id}
 
 	4.	Store order details for internal use: 
-	{order_id, customer_id, supplier_id, make, model, package} 
+		{order_id, customer_id, supplier_id, make, model, package} 
 			-	Supplier_id helps identify supplier. order_id and customer_id cannot uniquely 
 				identify the supplier. Eg: Both Acme and Rainier could have the same order_id
 			-	Make is unique in our case, but by convention it is better to use IDs than strings.
