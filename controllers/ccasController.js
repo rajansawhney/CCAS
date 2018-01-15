@@ -131,7 +131,6 @@ exports.delete_an_order = function(req, res) {
 /* Supplier functions */
 
 exports.list_all_suppliers = function(req, res) {
-	console.log("listing all suppliers");
 	Supplier.find({}, function(err, supplier) {
 			if (err)
 				res.send(err);
@@ -140,7 +139,6 @@ exports.list_all_suppliers = function(req, res) {
 };
 
 exports.create_a_supplier = function(req, res) {
-	console.log("here");
 	var new_supplier = new Supplier(req.body);
 	new_supplier.save(function(err, supplier) {
 			if (err)
