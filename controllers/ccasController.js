@@ -9,6 +9,8 @@ var mongoose = require('mongoose'),
 		_ = require('lodash');
 
 let acmeURL = 'http://localhost:3051/acme/api/v45.1/order';
+
+
 /* Customer functions */
 
 exports.list_all_customers = function(req, res) {
@@ -69,7 +71,7 @@ exports.create_an_order = function(req, res) {
 	var new_order = new Order(req.body);
 	//if Customer.findById
 	const  custId  = req.body.customerId;
-	console.log("Customer id:" + custId);
+	console.log("\nCustomer id:" + custId);
 	try {
 		Customer.findById(req.body.customerId, function(err,data){
 			if(err)
@@ -89,10 +91,10 @@ exports.create_an_order = function(req, res) {
 							if (err){
 								res.send(err);
 							}
-							console.log("\nsupplierData.api_key = " + _.get(supplierData,"0.api_key"));
+							//console.log("\nsupplierData.api_key = " + _.get(supplierData,"0.api_key"));
 							if(supplierData){	
 								const acme_api_key = supplierData[0].api_key;
-								console.log("\nacme api key retreived from supplierDB --" + acme_api_key);
+								console.log("\nacme api key retreived from supplierData -- " + acme_api_key);
 								const orderReq = 
 									{ api_key : acme_api_key,// access from supplier table using supplier_id
 										model : new_order.model,
@@ -103,7 +105,20 @@ exports.create_an_order = function(req, res) {
 								//axios post request at acmeAPI url with orderReq(data)
 								axios.post(acmeURL,orderReq)
 									.then(function(response){
-										new_order.orderId = response.order; //store response obtained from acmeAPI
+										console.log("\nresponse.data.order is --" + JSON.stringify(response.data.order));
+										new_order.orderId = _.toNumber(response.data.order); //store response obtained from acmeAPI
+										console.log("\nnew order:" + new_order);
+										
+										//save order in the Order schema
+										new_order.save(function(err, order) {
+											if (err)
+												res.send(err);
+											res.json({
+																	message: "Order placed successfully",
+																	order_details: order,
+																	link: "http://localhost:3000/order/order-"+new_order.orderId
+															});
+										});
 									})
 									.catch(function(error){
 										res.send(error);
@@ -117,12 +132,6 @@ exports.create_an_order = function(req, res) {
 			}
 		});				
 
-		//save order in the database
-		new_order.save(function(err, order) {
-				if (err)
-					res.send(err);
-				res.json(order);
-		});
 	}//end of try
 	catch(err){
 		console.log('Error while adding to database',err);
