@@ -29,7 +29,7 @@ module.exports = function(app) {
 		.post(ccas.create_a_supplier)
 	
 	//Not working
-	app.route('/supplier/supplierId')
+	app.route('/supplier/:supplierId')
 		.get(ccas.read_a_supplier)
 		.put(ccas.update_a_supplier)
 		.delete(ccas.delete_a_supplier)

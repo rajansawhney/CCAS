@@ -22,7 +22,7 @@ var OrderSchema = new Schema({
 	},
 	supplierId: {
 		type: "number" 
-	}
+	},
 	orderId: {
 		type: "number" 
 	}

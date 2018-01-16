@@ -4,8 +4,11 @@ var mongoose = require('mongoose'),
 		Schema = mongoose.Schema,
 		Customer = mongoose.model('Customer'),
 		Order = mongoose.model('Order'),
-		Supplier = mongoose.model('Supplier');
+		Supplier = mongoose.model('Supplier'),
+		axios = require('axios'),
+		_ = require('lodash');
 
+let acmeURL = 'http://localhost:3051/acme/api/v45.1/order';
 /* Customer functions */
 
 exports.list_all_customers = function(req, res) {
@@ -59,7 +62,7 @@ exports.list_all_orders = function(req, res) {
 				res.send(err);
 			res.json(order);
 			});
-};
+	};
 
 
 exports.create_an_order = function(req, res) {
@@ -68,17 +71,10 @@ exports.create_an_order = function(req, res) {
 	const  custId  = req.body.customerId;
 	console.log("Customer id:" + custId);
 	try {
-	//console.log("Type is ----"+typeof(customerId));
-	//if(typeof(customerId) !== Schema.ObjectId){
-	//	throw new Error('Incorrect typecasting. CustomerId is not of ObjectId type');
-	//}
 		Customer.findById(req.body.customerId, function(err,data){
-			if(err){
-				throw err;
+			if(err)
 				res.send(err); 
-				console.log(JSON.stringify(err));
-			}
-			//If data exists against received customerId
+			//If customer exists
 			if(data){
 				if(["acme","acme autos"].includes((req.body.make).toLowerCase()))
 					new_order.supplierId = 111;
@@ -88,36 +84,92 @@ exports.create_an_order = function(req, res) {
 					res.send("Incorrect \"Make\" entered. Enter either ACME Autos or Rainier Transportation Solution");
 
 				//Get orderId number from respective supplier
-				if(new_order.supplierId === 111)
-					
-					
+				if(new_order.supplierId === 111){
+					Supplier.find( {supplierId : 111}, function(err,supplierData){
+							if (err){
+								res.send(err);
+							}
+							console.log("\nsupplierData retrieved -- \n " + supplierData[0]);
+							console.log("\nsupplierData.api_key = " + _.get(supplierData,"0.api_key"));
+							if(supplierData){	
+								const acme_api_key = supplierData[0].api_key;
+								console.log("\nacme api key retreived from supplierDB --" + acme_api_key);
+								const orderReq = 
+									{ api_key : acme_api_key,// access from supplier table using supplier_id
+										model : new_order.model,
+										carPackage : new_order.carPackage
+									}
+								console.log("\norder req is:" + JSON.stringify(orderReq));
 
-				//save order in the database
-				new_order.save(function(err, order) {
-					if (err)
-						res.send(err);
-					res.json(order);
-				});
+								//axios post request at acmeAPI url with orderReq(data)
+								axios.post(acmeURL,orderReq)
+									.then(response => {
+										console.log('here');
+										console.log("\nresponse is = " + JSON.stringify(_.get(response.data,"order")));
+										//console.log("\norder_id received from acme: " + response[0].order);
+										new_order.orderId = _.get(response.data,"order"); //store response obtained from acmeAPI
+										console.log("\norder id:" + new_order.orderId);
+
+										//save order in the database
+										console.log("\nnew order is ---\n"+new_order);
+										new_order.save(function(err, order) {
+												if (err)
+													res.send(err);
+												res.send("Order placed successfully!\nOrder details:\n" + order +
+																"\n\n**\nThe order can be viewed @ " +
+																"http://localhost:3000/order/order-"+new_order.orderId);
+												});
+									})
+									.catch(function(error){
+										res.send(error);
+									});
+							}
+					});
+				}
 			}
 			else{
-				//console.log("Invalid CustomerId. CustomerId does not exist in the database");
 				res.send("Invalid CustomerId. CustomerId does not exist in the database");
 			}
-		});
-	}
-
+		});				
+		
+	}//end of try
 	catch(err){
-		console.log('Error while adding to database',err);}
-	return
+		console.log('Error while adding to database',err);
+		res.send(err);
+	}	
 };
 
 
+	/*
+	if(_.toString(req.params.orderId).includes("order-")){
+		const searchId = _toNumber(_.trimStart(req.params.orderId,'-' ));
+		console.log("\nsearchId is = " + searchId);
+		Order.find({orderId : _.toNumber(req.params.orderId)}, function(err, order) {		
+			if (err)
+				res.send(err);
+			res.json(order);
+		});
+	}
+	else{*/
 exports.read_an_order = function(req, res) {
+	console.log("\nreq.params.orderId = " + req.params.orderId);
+	console.log("\ntype of orderId = " + typeof(req.param.orderId));
+	if(_.toString(req.params.orderId).includes("order-")){
+		const searchId = _.toNumber(_.toString(req.params.orderId).split('-')[1]);
+		console.log("\nsearchId is = " + searchId);
+		Order.find({orderId : searchId}, function(err, order) {		
+			if (err)
+				res.send(err);
+			res.json(order);
+		});
+	}
+	else{
 	Order.findById(req.params.orderId, function(err, order) {		
 			if (err)
 				res.send(err);
 			res.json(order);
 			});
+	}
 };
 
 exports.update_an_order = function(req, res) {
@@ -135,8 +187,6 @@ exports.delete_an_order = function(req, res) {
 			res.json({ message: 'Order successfully deleted' });
 		});
 };
-
-/* Supplier functions */
 
 exports.list_all_suppliers = function(req, res) {
 	Supplier.find({}, function(err, supplier) {
