@@ -3,7 +3,7 @@
 var _ = require('lodash');
 
 exports.get_order_id = function(req, res) {
-	res.send("POST request with {api_key, model, package}");
+	res.send("POST request with {api_key, model, carPackage}");
 };
 
 exports.create_an_order = function(req, res) {

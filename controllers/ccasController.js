@@ -8,8 +8,9 @@ var mongoose = require('mongoose'),
 		axios = require('axios'),
 		_ = require('lodash');
 
-let acmeURL = 'http://localhost:3051/acme/api/v45.1/order';
-
+let acmeURL = 'http://localhost:3050/acme/api/v45.1/order';
+let rtsTokenURL = 'http://localhost:3051/rainier/v10.0/nonce_token';
+let rtsOrderURL = 'http://localhost:3051/rainier/v10.0/request_customized_model';
 
 /* Customer functions */
 
@@ -86,6 +87,7 @@ exports.create_an_order = function(req, res) {
 					res.send("Incorrect \"Make\" entered. Enter either ACME Autos or Rainier Transportation Solution");
 
 				//Get orderId number from respective supplier
+				//ACME
 				if(new_order.supplierId === 111){
 					Supplier.find( {supplierId : 111}, function(err,supplierData){
 							if (err){
@@ -96,7 +98,7 @@ exports.create_an_order = function(req, res) {
 								const acme_api_key = supplierData[0].api_key;
 								console.log("\nacme api key retreived from supplierData -- " + acme_api_key);
 								const orderReq = 
-									{ api_key : acme_api_key,// access from supplier table using supplier_id
+									{ api_key : acme_api_key,
 										model : new_order.model,
 										carPackage : new_order.carPackage
 									}
@@ -123,6 +125,67 @@ exports.create_an_order = function(req, res) {
 									.catch(function(error){
 										res.send(error);
 									});
+							}
+					});
+				}
+				//RTS
+				if(new_order.supplierId === 222) {
+					Supplier.find( {supplierId : 222}, function(err,supplierData){
+							if (err){
+								res.send(err);
+							}
+							//console.log("\nsupplierData.storefront = " + _.get(supplierData,"0.storefront"));
+							if(supplierData){	
+								const rts_storefront = supplierData[0].storefront;
+								console.log("\nstorefront key retreived from supplierData -- " + rts_storefront);
+
+								const tokenReq = { storefront: rts_storefront	};
+								const rts_token = null;	
+
+								//axios post request at rtsAPI url with orderReq(data)
+								axios.get(rtsTokenURL,{ params: tokenReq })
+									.then(function(response){
+										console.log("\nresponse keys -- \n" + Object.keys(response));
+										console.log("\nresponse.data --" + JSON.stringify(response.data) + "\n\n");
+										rts_token = response.data.nonce_token;
+										//console.log("\n\n\ntokenRec:" + rts_token);
+									})
+									.catch(function(error){
+										res.send(error);
+									});
+
+								const orderReq = 
+									{ token : rts_token,
+										model : new_order.model,
+										carPackage : new_order.carPackage
+									}
+
+								//console.log("\norder req is:" + JSON.stringify(orderReq));
+								//axios post request at acmeAPI url with orderReq(data)
+								if(rts_token){
+									axios.post(rtsOrderURL,orderReq)
+										.then(function(response){
+											console.log("\nresponse.data.order is --" + JSON.stringify(response.data.order_id));
+											new_order.orderId = _.toNumber(response.data.order_id); //store response obtained from acmeAPI
+											console.log("\nnew order:" + new_order);
+										
+										//save order in the Order schema
+										new_order.save(function(err, order) {
+											if (err)
+												res.send(err);
+											res.json({
+																	message: "Order placed successfully",
+																	order_details: order,
+																	link: "http://localhost:3000/order/order-"+new_order.orderId
+																});
+											});
+										})
+										.catch(function(error){
+											res.send(error);
+										});
+									}
+									else
+										res.send("Please provide the token to place the order");
 							}
 					});
 				}
