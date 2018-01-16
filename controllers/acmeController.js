@@ -12,7 +12,7 @@ exports.create_an_order = function(req, res) {
 	if(!req.body.api_key)
 		res.send("API_key not found");
 	else if(req.body.api_key === 'cascade.53bce4f1dfa0fe8e7ca126f91b35d3a6'){
-		const order_id = _.random(100,999,false); //random number between 100 and 99 (inclusive) 
+		const order_id = _.random(1000000,9999999,false); //random number between 1000000 and 9999999 (inclusive) 
 		console.log("Order Id is -- " + order_id);
 		res.send({order: _.toString(order_id)});	
 	}
