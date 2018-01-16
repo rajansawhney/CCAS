@@ -89,7 +89,6 @@ exports.create_an_order = function(req, res) {
 							if (err){
 								res.send(err);
 							}
-							console.log("\nsupplierData retrieved -- \n " + supplierData[0]);
 							console.log("\nsupplierData.api_key = " + _.get(supplierData,"0.api_key"));
 							if(supplierData){	
 								const acme_api_key = supplierData[0].api_key;
@@ -99,26 +98,12 @@ exports.create_an_order = function(req, res) {
 										model : new_order.model,
 										carPackage : new_order.carPackage
 									}
-								console.log("\norder req is:" + JSON.stringify(orderReq));
+								//console.log("\norder req is:" + JSON.stringify(orderReq));
 
 								//axios post request at acmeAPI url with orderReq(data)
 								axios.post(acmeURL,orderReq)
-									.then(response => {
-										console.log('here');
-										console.log("\nresponse is = " + JSON.stringify(_.get(response.data,"order")));
-										//console.log("\norder_id received from acme: " + response[0].order);
-										new_order.orderId = _.get(response.data,"order"); //store response obtained from acmeAPI
-										console.log("\norder id:" + new_order.orderId);
-
-										//save order in the database
-										console.log("\nnew order is ---\n"+new_order);
-										new_order.save(function(err, order) {
-												if (err)
-													res.send(err);
-												res.send("Order placed successfully!\nOrder details:\n" + order +
-																"\n\n**\nThe order can be viewed @ " +
-																"http://localhost:3000/order/order-"+new_order.orderId);
-												});
+									.then(function(response){
+										new_order.orderId = response.order; //store response obtained from acmeAPI
 									})
 									.catch(function(error){
 										res.send(error);
@@ -131,7 +116,13 @@ exports.create_an_order = function(req, res) {
 				res.send("Invalid CustomerId. CustomerId does not exist in the database");
 			}
 		});				
-		
+
+		//save order in the database
+		new_order.save(function(err, order) {
+				if (err)
+					res.send(err);
+				res.json(order);
+		});
 	}//end of try
 	catch(err){
 		console.log('Error while adding to database',err);
@@ -140,35 +131,22 @@ exports.create_an_order = function(req, res) {
 };
 
 
-	/*
-	if(_.toString(req.params.orderId).includes("order-")){
-		const searchId = _toNumber(_.trimStart(req.params.orderId,'-' ));
-		console.log("\nsearchId is = " + searchId);
-		Order.find({orderId : _.toNumber(req.params.orderId)}, function(err, order) {		
-			if (err)
-				res.send(err);
-			res.json(order);
-		});
-	}
-	else{*/
 exports.read_an_order = function(req, res) {
-	console.log("\nreq.params.orderId = " + req.params.orderId);
-	console.log("\ntype of orderId = " + typeof(req.param.orderId));
 	if(_.toString(req.params.orderId).includes("order-")){
 		const searchId = _.toNumber(_.toString(req.params.orderId).split('-')[1]);
 		console.log("\nsearchId is = " + searchId);
 		Order.find({orderId : searchId}, function(err, order) {		
-			if (err)
-				res.send(err);
-			res.json(order);
-		});
+				if (err)
+					res.send(err);
+				res.json(order);
+				});
 	}
 	else{
-	Order.findById(req.params.orderId, function(err, order) {		
-			if (err)
-				res.send(err);
-			res.json(order);
-			});
+		Order.findById(req.params.orderId, function(err, order) {		
+				if (err)
+					res.send(err);
+				res.json(order);
+				});
 	}
 };
 
@@ -187,6 +165,8 @@ exports.delete_an_order = function(req, res) {
 			res.json({ message: 'Order successfully deleted' });
 		});
 };
+
+/* Supplier functions */
 
 exports.list_all_suppliers = function(req, res) {
 	Supplier.find({}, function(err, supplier) {
