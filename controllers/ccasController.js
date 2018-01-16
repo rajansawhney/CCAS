@@ -60,12 +60,17 @@ exports.delete_a_customer = function(req, res) {
 /* Order functions */
 
 exports.list_all_orders = function(req, res) {
-	Order.find({}, function(err, order) {
-			if (err)
-				res.send(err);
-			res.json(order);
-			});
-	};
+	//If request has the right access token as query. Else say " Access denied "
+	if( req.query.pin === '1123' ) {
+		Order.find({}, function(err, order) {
+				if (err)
+					res.send(err);
+				res.json(order);
+		});
+	}
+	else
+		res.send("ACCESS DENIED");			
+};
 
 
 exports.create_an_order = function(req, res) {
@@ -74,11 +79,14 @@ exports.create_an_order = function(req, res) {
 	const  custId  = req.body.customerId;
 	console.log("\nCustomer id:" + custId);
 	try {
-		Customer.findById(req.body.customerId, function(err,data){
+		Customer.findById(req.body.customerId, function(err,cust){
 			if(err)
 				res.send(err); 
 			//If customer exists
-			if(data){
+			if(cust){
+				//If customer's country in USA
+				if(!["usa","united states of america","united states"].includes(cust.address.country.toLowerCase()))
+					res.send("CCAS does provide shipping services to " + cust.address.country + ". Apologies")
 				if(["acme","acme autos"].includes((req.body.make).toLowerCase()))
 					new_order.supplierId = 111;
 				else if(["rainier","rainier transportation solution","rts"].includes((req.body.make).toLowerCase()))
