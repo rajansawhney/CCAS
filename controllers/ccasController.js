@@ -140,53 +140,51 @@ exports.create_an_order = function(req, res) {
 								console.log("\nstorefront key retreived from supplierData -- " + rts_storefront);
 
 								const tokenReq = { storefront: rts_storefront	};
-								const rts_token = null;	
-
-								//axios post request at rtsAPI url with orderReq(data)
-								axios.get(rtsTokenURL,{ params: tokenReq })
-									.then(function(response){
-										console.log("\nresponse keys -- \n" + Object.keys(response));
-										console.log("\nresponse.data --" + JSON.stringify(response.data) + "\n\n");
-										rts_token = response.data.nonce_token;
-										//console.log("\n\n\ntokenRec:" + rts_token);
-									})
-									.catch(function(error){
-										res.send(error);
-									});
-
+									
 								const orderReq = 
-									{ token : rts_token,
+									{ token : "",
 										model : new_order.model,
 										carPackage : new_order.carPackage
-									}
+									};
 
-								//console.log("\norder req is:" + JSON.stringify(orderReq));
-								//axios post request at acmeAPI url with orderReq(data)
-								if(rts_token){
-									axios.post(rtsOrderURL,orderReq)
-										.then(function(response){
-											console.log("\nresponse.data.order is --" + JSON.stringify(response.data.order_id));
-											new_order.orderId = _.toNumber(response.data.order_id); //store response obtained from acmeAPI
-											console.log("\nnew order:" + new_order);
+								//axios get request at rtsAPI url with storefront(params)
+								axios.get(rtsTokenURL,{ params: tokenReq })
+									.then(function(response){
+										//console.log("\nresponse keys -- \n" + Object.keys(response));
+										orderReq.token = response.data.nonce_token;
+										console.log("\ntoken received at CCAS:" + orderReq.token);
+
+										if(orderReq.token){
+											//axios post request at rtsAPI url with orderReq(data)
+											axios.post(rtsOrderURL,orderReq)
+												.then(function(response){
+													console.log("\nresponse.data is --" + JSON.stringify(response.data.order_id));
+													new_order.orderId = _.toNumber(response.data.order_id); //store response obtained from acmeAPI
+													console.log("\nnew order:" + new_order);
 										
-										//save order in the Order schema
-										new_order.save(function(err, order) {
-											if (err)
-												res.send(err);
-											res.json({
+													//save order in the Order schema
+													new_order.save(function(err, order) {
+														if (err)
+															res.send(err);
+														res.json({
 																	message: "Order placed successfully",
 																	order_details: order,
 																	link: "http://localhost:3000/order/order-"+new_order.orderId
-																});
-											});
-										})
+																	});
+													});
+												})
+												.catch(function(error){
+													res.send(error);
+												});
+											}
+											else
+												res.send("Please provide the token to place the order");
+										})//end of then of first axios
 										.catch(function(error){
 											res.send(error);
 										});
-									}
-									else
-										res.send("Please provide the token to place the order");
-							}
+								console.log("\norder req is:" + JSON.stringify(orderReq));
+								}
 					});
 				}
 			}

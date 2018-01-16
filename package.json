@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "ccas": "nodemon server.js",
-    "acme": "nodemon acmeServer.js"
+    "ccas": "nodemon ./servers/ccasServer.js",
+    "acme": "nodemon ./servers/acmeServer.js",
+    "rts": "nodemon ./servers/rtsServer.js"
   },
   "author": "",
   "license": "ISC",
