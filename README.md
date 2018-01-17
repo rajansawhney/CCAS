@@ -12,23 +12,24 @@ appropriate supplier for delivery.
 ## Project Workflow
 	1.	Customer provides {customer_id, make, model, package} as request to Central Cascade
 		Automotive Sales(CCAS). 
-		Further customer details stored with CCAS – customer_id, customer_name, customer_address
+		CCAS maintains Customer Schema as described below.
 
-	2.	CCAS validates customer_id against stored customer information. If the customer_id is
-		invalid -> stop request.
+	2.	CCAS validates customer_id against stored customer information.
+		If the customer_id is invalid -> stop request.
+		If the customer's mentioned Shipping address in not in USA, decline service.
 
 	3.	If the customer_id and make are valid, do the following depending on the “make”
 
-			1.	If make is “Acme”
-				-	Send request to Acme with {api_key, model, package}
-				-	If api_key is invalid -> stop request
-				-	Else, Acme sends back {order_id}
+			1.	If make is “Acme Autos” or "ACME"
+				-	Send request to the Acme API with {api_key, model, package}
+				-	Only a valid api_key guarantees response from the Acme API
+				-	Acme sends back {order_id} as response
 
-			2.	If make is “Rainer”
-				-	Send token request to Rainier using “storefront”
-				-	Rainier responds with {nonce_token}
-				-	CCAS posts request to Rainier with {token, model, package}
-				-	Rainier replies back with {order_id}
+			2.	If make is “Rainier” or "Rainier Transportation Solution" or "RTS"
+				-	Send token request to the RTS API with {storefront}
+				-	RTS responds with {nonce_token}
+				-	CCAS posts request to RTS with {nonce_token, model, package}
+				-	RTS replies back with {order_id} as response if nonce_token is valid
 
 	4.	Store order details for internal use: 
 		{order_id, customer_id, supplier_id, make, model, package} 
@@ -37,21 +38,20 @@ appropriate supplier for delivery.
 			-	Make is unique in our case, but by convention it is better to use IDs than strings.
 
 	5.	Inform customer of successful request and provide json object link for that order_id
-			-	JSON object will contain {order_id, customer_id, make, model, package}
 
 ## Database Model
 
 DATABASE MODEL (SCHEMA):
 
 1.	Customer
-{ customer_id, customer_name, customer_address }
+{ customerId, name.firstName, name.LastName, address.city, address.state, address.country }
 
 2.	Orders
-{ order_id, customer_id, supplier_id, make, model, package}
+{ orderId, customerIid, supplierIid, make, model, package}
+NOTE : here orderId represents the orderId returned by the Supplier API on successful order placement
 
 3.	Supplier
-Acme: { supplier_id, make, api_key, token }
-Rainier: { supplier_id, make, storefront, token }
+{ supplierId, make, api_key, storefront, token }
 
 
 ## Getting Started
@@ -60,28 +60,39 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-Node.js - v6.9.1
+* Node.js - v6.9.1
+* Express.js
+* MongoDB
 
 Packages used:
 
 ```
-Give examples
+Nodemon - For seemless building of the project
+Lodash - JavaScript utility functions
+Axios - Handling HTTP requests
+
 ```
 
 ### Installing
 
-A step by step series of examples that tell you have to get a development env running
-
-Say what the step will be
-
+Clone the project using :
 ```
-Give the example
+git clone https://github.com/rajan3012/CCAS.git
 ```
 
-And repeat
-
+Start CCAS server
 ```
-until finished
+npm start ccas
+```
+
+Start ACME server
+```
+npm start acme
+```
+
+Start RTS (Rainier) server
+```
+npm start rts
 ```
 
 End with an example of getting some data out of the system or using it for a little demo
