@@ -114,7 +114,7 @@ exports.create_an_order = function(req, res) {
 									}
 								//console.log("\norder req is:" + JSON.stringify(orderReq));
 
-								function get_order_id(){
+								//function get_order_id(){
 								//throw new Error("New error")
 								//axios post request at acmeAPI url with orderReq(data)
 								axios.post(acmeURL,orderReq)
@@ -137,10 +137,11 @@ exports.create_an_order = function(req, res) {
 									.catch(function(error){
 										res.send({
 																message: "Verify if you're connected to the Acme API",
-																error: error		
+																error: error.response		
 														});
 									});
-									}
+									//}
+									/*
 									Promise.resolve()
 										.then(get_order_id)
 										.catch(err => {
@@ -152,7 +153,7 @@ exports.create_an_order = function(req, res) {
 										.then(ok => {
 											console.log(ok.message)
 										});
-										
+									*/	
 							}
 					});
 				}

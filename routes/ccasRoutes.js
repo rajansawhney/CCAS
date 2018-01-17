@@ -15,8 +15,10 @@ module.exports = function(app) {
 
 	/* Order */	
 	app.route('/order')
-		.get(ccas.list_all_orders)
 		.post(ccas.create_an_order);
+
+	app.route('/orders')
+		.get(ccas.list_all_orders)
 
 	app.route('/order/:orderId')
 		.get(ccas.read_an_order)
