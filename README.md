@@ -41,16 +41,15 @@ appropriate supplier for delivery.
 
 ## Database Model
 
-DATABASE MODEL (SCHEMA):
 
-1.	Customer
+**1.	Customer**
 { customerId, name.firstName, name.LastName, address.city, address.state, address.country }
 
-2.	Orders
+**2.	Orders**
 { orderId, customerIid, supplierIid, make, model, package}
 NOTE : here orderId represents the orderId returned by the Supplier API on successful order placement
 
-3.	Supplier
+**3.	Supplier**
 { supplierId, make, api_key, storefront, token }
 
 
