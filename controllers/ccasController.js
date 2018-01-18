@@ -18,7 +18,7 @@ exports.list_all_customers = function(req, res) {
 	Customer.find({}, function(err, customer) {
 			if (err)
 				res.send(err);
-			console.log("customer objects:\n" + customer)
+			//console.log("customer objects:\n" + customer)
 			res.json(customer);
 			});
 };

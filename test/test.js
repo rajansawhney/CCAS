@@ -18,6 +18,9 @@ chai.use(chaiHttp);
 
 //Our parent block
 describe('Customers', () => {
+
+	/* Test the /GET route */
+
 	describe('/GET customer', () => {
 		it('it should GET all the customers', (done) => {
 			chai.request(ccasServer)
@@ -29,7 +32,32 @@ describe('Customers', () => {
 				});
 		});
 	});
-});
+	
+	/* Test the /POST route */
+
+	describe('/POST customer', () => {
+		it('it should not POST a customer without name and address.country field', (done) => {
+			let cust = {
+				name: {
+					firstName : "Albert",
+					lastName : "Einstein"
+				}
+			}
+			chai.request(ccasServer)
+				.post('/customer')
+				.send(cust)
+				.end((err, res) => {
+						res.should.have.status(200);
+						res.body.should.be.a('object');
+						res.body.should.have.property('errors');
+						res.body.errors.should.have.property('address.country');
+//						res.body.errors.address.country.should.have.property('kind').eql('required');
+				done();
+				});
+		});
+	});
+
+}); //end of customer testing
 
 /*
 describe('RTS testing', function(){
