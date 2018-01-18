@@ -156,9 +156,15 @@ http://localhost:3000/customer
 	make: ACME Autos
 	api_key: cascade.53bce4f1dfa0fe8e7ca126f91b35d3a6
 
+
+-- Hit send. ACME has been added! 
+
 ![alt text](https://media.giphy.com/media/KqItY5h1jmP0k/200.gif)
 
--- Hit send. Now let's add RTS information:
+
+
+-- Now let's add RTS information:
+
 
 	supplierId: 222
 	make: RTS 
