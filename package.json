@@ -10,9 +10,9 @@
     "test": "mocha",
 		"hostname" : "uname",
     "build": "npm run build",
-    "ccas": "if [ `uname`==Linux ]; then gnome-terminal -e \"nodemon ./servers/ccasServer.js\"; else if [ `uname`==Darwin ]; then open -n -a Terminal --args \"nodemon ./servers/ccasServer.js\"; fi; fi",
-    "acme": "if [ `uname`==Linux ]; then gnome-terminal -e \"nodemon ./servers/acmeServer.js\"; else if [ `uname`==Darwin ]; then open -n -a Terminal --args \"nodemon ./servers/acmeServer.js\"; fi; fi",
-    "rts": "if [ `uname`==Linux ]; then gnome-terminal -e \"nodemon ./servers/rtsServer.js\"; else if [ `uname`==Darwin ]; then open -n -a Terminal --args \"nodemon ./servers/rtsServer.js\"; fi; fi",
+    "ccas": "nodemon ./servers/ccasServer.js",
+    "acme": "nodemon ./servers/acmeServer.js",
+    "rts": "nodemon ./servers/rtsServer.js",
     "all": "npm run ccas && npm run acme && npm run rts"
   },
   "author": "",
