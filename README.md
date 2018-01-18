@@ -238,7 +238,10 @@ http://localhost:3000/orders
 ```
 
 ACCESS DENIED!
+
+
 ![alt text](https://media.giphy.com/media/11QzYvIrd3cZpe/giphy.gif)
+
 
 Forgot to give you the PIN. Add pin=1123 to get access.
 Like this
