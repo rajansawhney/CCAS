@@ -79,7 +79,6 @@ exports.list_all_orders = function(req, res) {
 
 exports.create_an_order = function(req, res) {
 	var new_order = new Order(req.body);
-	//if Customer.findById
 	const  custId  = req.body.customerId;
 	console.log("\nCustomer id:" + custId);
 	try {
@@ -88,7 +87,7 @@ exports.create_an_order = function(req, res) {
 				res.send(err); 
 			//If customer exists
 			if(cust){
-				//If customer's country in USA
+				//If customer's country is USA
 				if(!["usa","united states of america","united states"].includes(cust.address.country.toLowerCase()))
 					res.send("CCAS does provide shipping services to " + cust.address.country + ". Apologies")
 				if(["acme","acme autos"].includes((req.body.make).toLowerCase()))
@@ -116,8 +115,6 @@ exports.create_an_order = function(req, res) {
 									}
 								//console.log("\norder req is:" + JSON.stringify(orderReq));
 
-								//function get_order_id(){
-								//throw new Error("New error")
 								//axios post request at acmeAPI url with orderReq(data)
 								axios.post(acmeURL,orderReq)
 									.then(function(response){
@@ -142,20 +139,6 @@ exports.create_an_order = function(req, res) {
 																error: error.response		
 														});
 									});
-									//}
-									/*
-									Promise.resolve()
-										.then(get_order_id)
-										.catch(err => {
-											res.send({
-																message: "Verify if you're connected to the Acme API",
-																error: err		
-															});
-										})
-										.then(ok => {
-											console.log(ok.message)
-										});
-									*/	
 							}
 					});
 				}
@@ -168,7 +151,7 @@ exports.create_an_order = function(req, res) {
 							//console.log("\nsupplierData.storefront = " + _.get(supplierData,"0.storefront"));
 							if(supplierData){	
 								const rts_storefront = supplierData[0].storefront;
-								console.log("\nstorefront key retreived from supplierData -- " + rts_storefront);
+								console.log("\nStorefront key retreived from supplierData -- " + rts_storefront);
 
 								const tokenReq = { storefront: rts_storefront	};
 									
@@ -234,8 +217,10 @@ exports.create_an_order = function(req, res) {
 
 exports.read_an_order = function(req, res) {
 	if(_.toString(req.params.orderId).includes("order-")){
+		//Extract order_id
 		const searchId = _.toNumber(_.toString(req.params.orderId).split('-')[1]);
 		console.log("\nsearchId is = " + searchId);
+		//Find order in DB using order_id
 		Order.find({orderId : searchId}, function(err, order) {		
 				if (err)
 					res.send(err);

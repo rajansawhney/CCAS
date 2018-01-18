@@ -3,8 +3,9 @@
 var _ = require('lodash');
 
 exports.get_nonce_token = function(req, res){
-	console.log("\n\nrequest received : \n " + JSON.stringify(req.query.storefront));	
+	console.log("\n\nRequest received : \n " + JSON.stringify(req.query.storefront));	
 	console.log("\n\nStorefront received -- " + req.query.storefront);
+	// if correct storefront received, proceed to send nonce_token
 	if(!req.query.storefront)
 		res.send("Kindly input the storefront to receive the nonce_token");
 	else if(req.query.storefront === 'ccas-bb9630c04f')
@@ -19,9 +20,12 @@ exports.get_order_id = function(req, res) {
 	res.send("POST request with {token, model, carPackage}");
 };
 
+
 exports.create_an_order = function(req, res) {
 	console.log("\n\nRequest received by rts : \n " + JSON.stringify(req.body));
 	console.log("Token received -- " + req.body.token);
+
+	//If correct token received, proceed to generate order_id
 	if(!req.body.token)
 		res.send("Token not found");
 	else if(req.body.token === 'ff6bfd673ab6ae03d8911') {

@@ -9,7 +9,6 @@ var express = require('express'),
 
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
-
 mongoose.connect('mongodb://localhost/CCASdb', function() {})
 	.then( () => {
 			console.log("Connected to CCASdb");
@@ -37,5 +36,3 @@ console.log('CCAS server started on: ' + port);
 app.use(function(req, res) {
 	res.status(404).send({url: req.originalUrl + ' not found'})
 });
-
-module.exports = app; //for testing

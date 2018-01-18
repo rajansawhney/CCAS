@@ -7,8 +7,9 @@ exports.get_order_id = function(req, res) {
 };
 
 exports.create_an_order = function(req, res) {
-	console.log("\n\n request received by acme : \n " + JSON.stringify(req.body));
+	console.log("\n\n Request received by acme : \n " + JSON.stringify(req.body));
 	console.log("API_key received -- " + req.body.api_key);
+	// if api_key matches, then procees to generate order_id
 	if(!req.body.api_key)
 		res.send("API_key not found");
 	else if(req.body.api_key === 'cascade.53bce4f1dfa0fe8e7ca126f91b35d3a6'){
