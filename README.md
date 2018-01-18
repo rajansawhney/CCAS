@@ -102,7 +102,7 @@ Start RTS (Rainier) server
 npm start rts
 ```
 
-###Running the project:
+### Running the project:
 
 Once you have all the servers up and running, let's begin to use this application!
 
@@ -181,14 +181,15 @@ http://localhost:3000/customer
 ]
 ```
 
-Yay! We customers and supplier! Let's place some orders!
+Yay! We have customers and suppliers! Let's place some orders!
 
 -- To place an order go to:
 ```
 http://localhost:3000/order
 ```
 -- Select post and select x-www-form-urlencoded and enter:
--- Enter the following details in body:
+
+-- Enter the following details in the body:
 
 	customerId: // this is _id of the customer in our database
 	make: //ACME or RTS
@@ -200,7 +201,7 @@ http://localhost:3000/order
 ```
 {
 	"message": "Order placed successfully",
-		"order_details": {
+	"order_details": {
 			"_id": "5a602baa95701c26d5da35cf",
 			"customerId": "5a602b8295701c26d5da35ce",
 			"make": "RTS",
@@ -209,10 +210,34 @@ http://localhost:3000/order
 			"supplierId": 222,
 			"orderId": 4568140,
 			"__v": 0
-		},
-		"link": "http://localhost:3000/order/order-4568140"
+	},
+	"link": "http://localhost:3000/order/order-4568140"
 }
 ```
+
+Once you place the order, you can view it's details using the link mentioned as pasrt of the JSON object. Neat!
+
+
+-- Some other cool stuff:
+
+You are now an employee of CCAS. Congratulations.
+
+What! You want to see all the orders that customers have placed with us. Sure!
+Just go to:
+```
+http://localhost:3000/orders
+```
+
+ACCESS DENIED!
+
+Forgot to give you the PIN. Add pin=1123 to get access.
+Like this
+```
+http://localhost:3000/orders?pin=1123
+```
+
+And voila! All orders!!
+
 
 ## Running the tests
 
