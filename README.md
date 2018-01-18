@@ -109,7 +109,8 @@ Once you have all the servers up and running, let's begin to use this applicatio
 Let's add a customer to our Customer database. 
 
 -- Open Postman 
---	Do a post request on:
+
+--Do a post request on:
 ```
 http://localhost:3000/customer
 ```
@@ -143,7 +144,7 @@ You can go a GET at the customer URL to see all customers in the database
 Let's add two suppliers : ACME Autos and Rainier Transportation Solutions
 
 
-Adding ACME Autos:
+Adding suppliers:
 
 -- In postman open 
 ```
@@ -154,6 +155,8 @@ http://localhost:3000/customer
 	supplierId: 111
 	make: ACME Autos
 	api_key: cascade.53bce4f1dfa0fe8e7ca126f91b35d3a6
+
+![](https://media.giphy.com/media/KqItY5h1jmP0k/200.gif)
 
 -- Hit send. Now let's add RTS information:
 
