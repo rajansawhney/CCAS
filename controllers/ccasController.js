@@ -37,6 +37,7 @@ exports.read_a_customer = function(req, res) {
 	Customer.findById(req.params.customerId, function(err, customer) {		
 			if (err)
 				res.send(err);
+			console.log("customer details added:\n" + customer)
 			res.json(customer);
 			});
 };

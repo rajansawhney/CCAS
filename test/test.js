@@ -1,10 +1,37 @@
-var request = require('request'),
-		axios = require('axios'),
-		assert = require('chai').assert,
-		expect = require('chai').expect;
+//Require dev-dependencies
 
-let rtsTokenURL = "http://localhost:3011/rainer/v10.0/"
+let request = require('request'),
+		mongoose = require('mongoose'),
+		axios = require('axios');
 
+let	chai = require('chai'),
+		chaiHttp = require('chai-http'),
+		should = chai.should(),
+		assert = chai.assert,
+		expect = chai.expect;
+
+let ccasServer = require('../servers/ccasServer');
+let Customer = require('../models/customerModel');
+let rtsTokenURL = "http://localhost:3051/rainer/v10.0/nonce_token"
+
+chai.use(chaiHttp);
+
+//Our parent block
+describe('Customers', () => {
+	describe('/GET customer', () => {
+		it('it should GET all the customers', (done) => {
+			chai.request(ccasServer)
+				.get('/customer')
+				.end((err,res) => {
+					res.should.have.status(200);
+					res.body.should.be.a('array');
+				done();
+				});
+		});
+	});
+});
+
+/*
 describe('RTS testing', function(){
 	describe('Nonce_token check', function(){
 		it('status', function() {
@@ -15,8 +42,9 @@ describe('RTS testing', function(){
 				done();
 			})
 			.catch(function(error){
-				console.log("error!",error.stack);
-			};
+				console.log(error.stack);
+			});
 		});
 	});
 });
+*/

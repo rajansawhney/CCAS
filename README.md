@@ -69,12 +69,13 @@ These instructions will get you a copy of the project up and running on your loc
 
 Packages used:
 
-```
-Nodemon - For seamless building of the project
-Lodash - JavaScript utility functions
-Axios - Handling HTTP requests
+* Nodemon - For seamless building of the project
+* Mongoose - Facilitate MongoDB communication
+* Lodash - JavaScript utility functions
+* Axios - Handling HTTP requests
+* Mocha - Testing environment
+* Chai - Assertion library
 
-```
 
 ### Installing
 
@@ -83,30 +84,24 @@ Clone the project using :
 git clone https://github.com/rajan3012/CCAS.git
 ```
 
+Do and ```npm install``` to get all the required packages mentioned in package.json
+
 ### Run the servers
 
 Open the servers in different terminals. Each server runs on an individual terminal
 
-Start CCAS server
+Start the servers
 ```
 npm start ccas
-```
-
-Start ACME server
-```
 npm start acme
-```
-
-Start RTS (Rainier) server
-```
 npm start rts
 ```
 
 ### Running the project:
 
-Once you have all the servers up and running, let's begin to use this application!
+Once you have all the servers up and running, let's begin to use the CCAS API!
 
-Let's add a customer to our Customer database. 
+-- Customer creation: 
 
 -- Open Postman 
 
@@ -137,20 +132,20 @@ http://localhost:3000/customer
 
 ```
 
-Hey hey! We have our first customer!
+We have our first customer!
 
-You can go a GET at the customer URL to see all customers in the database
+You can do go a GET at the customer endpoint to see all customers in the database
 
 Let's add two suppliers : ACME Autos and Rainier Transportation Solutions
 
 
-Adding suppliers:
+Supplier creation:
 
 -- In postman open 
 ```
-http://localhost:3000/customer
+http://localhost:3000/supplier
 ```
--- POST request using:
+-- POST request at the supplier endpoint and enter:
 	
 	supplierId: 111
 	make: ACME Autos
@@ -158,9 +153,6 @@ http://localhost:3000/customer
 
 
 -- Hit send. ACME has been added! 
-
-![alt text](https://media.giphy.com/media/KqItY5h1jmP0k/200.gif)
-
 
 
 -- Now let's add RTS information:
@@ -190,9 +182,9 @@ http://localhost:3000/customer
 ]
 ```
 
-Yay! We have customers and suppliers! Let's place some orders!
+We have customers and suppliers! Let's place some orders!
 
--- To place an order go to:
+-- Order creation:
 ```
 http://localhost:3000/order
 ```
@@ -224,15 +216,16 @@ http://localhost:3000/order
 }
 ```
 
-Once you place the order, you can view it's details using the link mentioned as pasrt of the JSON object. Neat!
+You have successfully placed an order with CCAS!
+
+Once you place the order, you can view it's details using the link mentioned as part of the JSON object.
 
 
--- Some other cool stuff:
+-- Making the CCAS API secure:
 
-You are now an employee of CCAS. Congratulations.
+For security purposes, only CCAS customer service representatives can view all the orders.
 
-What! You want to see all the orders that customers have placed with us. Sure!
-Just go to:
+To view all orders, use the */orders* endpoint :
 ```
 http://localhost:3000/orders
 ```
@@ -240,17 +233,13 @@ http://localhost:3000/orders
 ACCESS DENIED!
 
 
-![alt text](https://media.giphy.com/media/11QzYvIrd3cZpe/giphy.gif)
-
-
-Forgot to give you the PIN. Add pin=1123 to get access.
+Provide the PIN as parameters. Add pin=1123 to get access.
 Like this
 ```
 http://localhost:3000/orders?pin=1123
 ```
 
-And voila! All orders!!
-
+You should get back an Orders Report
 
 ## Running the tests
 
