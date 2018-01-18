@@ -9,8 +9,18 @@ var express = require('express'),
 
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/CCASdb'); 
-
+mongoose.connect('mongodb://localhost/CCASdb')
+/*
+mongoose.connect('mongodb://localhost/CCASdb', function() {})
+	.then( () => {
+			console.log("Connected to CCASdb");
+	})
+	.catch( err => {
+		console.error("Unable to connect to CCASdb. Check if MongoDB instance is running" +
+								"\nRun mongodb instance in another terminal using: mongod and test" +
+								"\n\nError:\n", err.stack);
+	});
+*/
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

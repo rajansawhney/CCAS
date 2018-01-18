@@ -70,7 +70,7 @@ These instructions will get you a copy of the project up and running on your loc
 Packages used:
 
 ```
-Nodemon - For seemless building of the project
+Nodemon - For seamless building of the project
 Lodash - JavaScript utility functions
 Axios - Handling HTTP requests
 
