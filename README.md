@@ -67,7 +67,7 @@ These instructions will get you a copy of the project up and running on your loc
 * Express.js
 * MongoDB
 
-Packages used:
+**Packages used:**
 
 * Nodemon - For seamless building of the project
 * Mongoose - Facilitate MongoDB communication
@@ -105,7 +105,7 @@ Once you have all the servers up and running, let's begin to use the CCAS API!
 
 -- Open Postman 
 
--- Do a post request on:
+-- Do a POST request on the customer endpoint:
 ```
 http://localhost:3000/customer
 ```
@@ -126,8 +126,8 @@ http://localhost:3000/customer
 			state: 'Oregon', 
 			country: 'USA' 
 		},
-	_id: 5a602b8295701c26d5da35ce,
-	__v: 0
+_id: 5a602b8295701c26d5da35ce,
+__v: 0
 }
 
 ```
@@ -167,10 +167,10 @@ http://localhost:3000/supplier
 [
 {
 	"_id": "5a60131fe720ba1cb706c26c",
-		"supplierId": 111,
-		"make": "ACME",
-		"api_key": "cascade.53bce4f1dfa0fe8e7ca126f91b35d3a6",
-		"__v": 0
+	"supplierId": 111,
+	"make": "ACME",
+	"api_key": "cascade.53bce4f1dfa0fe8e7ca126f91b35d3a6",
+	"__v": 0
 },
 {
 	"_id": "5a60144ce720ba1cb706c26d",
