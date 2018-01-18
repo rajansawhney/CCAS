@@ -196,7 +196,7 @@ Yay! We have customers and suppliers! Let's place some orders!
 ```
 http://localhost:3000/order
 ```
--- Select post and select x-www-form-urlencoded and enter:
+-- Select POST, select x-www-form-urlencoded:
 
 -- Enter the following details in the body:
 
@@ -238,6 +238,7 @@ http://localhost:3000/orders
 ```
 
 ACCESS DENIED!
+![alt text](https://media.giphy.com/media/11QzYvIrd3cZpe/giphy.gif)
 
 Forgot to give you the PIN. Add pin=1123 to get access.
 Like this
