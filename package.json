@@ -11,8 +11,8 @@
 		"hostname" : "uname",
     "build": "npm run build",
     "ccas": "if [ `uname`==Linux ]; then gnome-terminal -e \"nodemon ./servers/ccasServer.js\"; else if [ `uname`==Darwin ]; then open -n -a Terminal --args \"nodemon ./servers/ccasServer.js\"; fi; fi",
-    "acme": "gnome-terminal -e \"nodemon ./servers/acmeServer.js\"",
-    "rts": "gnome-terminal -e \"nodemon ./servers/rtsServer.js\"",
+    "acme": "if [ `uname`==Linux ]; then gnome-terminal -e \"nodemon ./servers/acmeServer.js\"; else if [ `uname`==Darwin ]; then open -n -a Terminal --args \"nodemon ./servers/acmeServer.js\"; fi; fi",
+    "rts": "if [ `uname`==Linux ]; then gnome-terminal -e \"nodemon ./servers/rtsServer.js\"; else if [ `uname`==Darwin ]; then open -n -a Terminal --args \"nodemon ./servers/rtsServer.js\"; fi; fi",
     "all": "npm run ccas && npm run acme && npm run rts"
   },
   "author": "",
