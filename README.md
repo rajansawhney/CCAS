@@ -75,7 +75,7 @@ Packages used:
 * Axios - Handling HTTP requests
 * Mocha - Testing environment
 * Chai - Assertion library
-
+* Chai HTTP - HTTP integration testing with Chai assertions
 
 ### Installing
 
@@ -84,7 +84,7 @@ Clone the project using :
 git clone https://github.com/rajan3012/CCAS.git
 ```
 
-Do and ```npm install``` to get all the required packages mentioned in package.json
+Do a ```npm install``` to get all the required packages mentioned in package.json
 
 ### Run the servers
 
@@ -101,15 +101,15 @@ npm start rts
 
 Once you have all the servers up and running, let's begin to use the CCAS API!
 
--- Customer creation: 
+**Customer creation:**
 
 -- Open Postman 
 
---Do a post request on:
+-- Do a post request on:
 ```
 http://localhost:3000/customer
 ```
---	Go to Body in postman, select x-www-form-urlencoded and enter:
+--Go to Body in postman, select x-www-form-urlencoded and enter:
 			
 			name.firstName = Rajan
 			name.lastName = Saw
@@ -117,7 +117,7 @@ http://localhost:3000/customer
 			address.state = Oregon
 			address.country = USA
 
--- Hit send. You should get back an json object. Something like this:
+-- Hit send. You should get back a json object. Something like this:
 ```
 { name: {
 		firstName: 'Rajan', lastName: 'Saw' },
@@ -139,7 +139,7 @@ You can do go a GET at the customer endpoint to see all customers in the databas
 Let's add two suppliers : ACME Autos and Rainier Transportation Solutions
 
 
-Supplier creation:
+**Supplier creation:**
 
 -- In postman open 
 ```
@@ -184,7 +184,7 @@ http://localhost:3000/supplier
 
 We have customers and suppliers! Let's place some orders!
 
--- Order creation:
+**Order creation:**
 ```
 http://localhost:3000/order
 ```
