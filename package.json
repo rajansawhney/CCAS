@@ -12,20 +12,19 @@
     "build": "npm run build",
     "ccas": "nodemon ./servers/ccasServer.js",
     "acme": "nodemon ./servers/acmeServer.js",
-    "rts": "nodemon ./servers/rtsServer.js",
-    "all": "npm run ccas && npm run acme && npm run rts"
+    "rts": "nodemon ./servers/rtsServer.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "mongoose": "^5.0.0",
-    "chai-http": "^3.0.0",
     "faker": "^4.1.0",
     "lodash": "^4.17.4",
     "mockgoose": "^7.3.3"
   },
   "devDependencies": {
     "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
     "mocha": "^4.1.0",
     "express": "^4.16.2",
     "nodemon": "^1.14.11",

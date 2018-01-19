@@ -80,22 +80,42 @@ describe('Customers', () => {
 		});
 	});
 
-}); //end of customer testing
-
-/*
-describe('RTS testing', function(){
-	describe('Nonce_token check', function(){
-		it('status', function() {
-			axios.get( rtsTokenURL, { params: {storefront:"ccas-bb9630c04f"}} )
-				.then(function(response){
-					console.log("response is -- \n" + JSON.stringify(response.data));
-					expect(response.data.nonce_token).to.equal("ff6bfd673ab6ae03d8911");
-				done();
-			})
-			.catch(function(error){
-				console.log(error.stack);
+	/* Test the /GET/:id route */ 
+	describe('/GET/:id customer', () => {
+		it('it should GET a customer by the given id', (done) => {
+			let cust = new Customer({
+				name: {
+					firstName: "George",
+					lastName: "Martin"
+					},
+				address: {
+					city: "Seattle",
+					state: "WA",
+					country: "USA"
+				}
+			});
+			cust.save((err, book) => {
+					chai.request(ccasServer)
+					.get('/customer/' + cust.id)
+					.send(cust)
+					.end((err,res) => {
+							res.should.have.status(200);
+							res.body.should.be.a('object');
+							res.body.should.have.property('name');
+							res.body.name.should.have.property('firstName');
+							res.body.name.should.have.property('lastName');
+							res.body.should.have.property('address');
+							res.body.address.should.have.property('city');
+							res.body.address.should.have.property('state');
+							res.body.address.should.have.property('country');
+							res.body.should.have.property('_id').eql(cust.id);
+						done();
+					});
 			});
 		});
+		
 	});
-});
-*/
+
+}); //end of customer testing
+
+
