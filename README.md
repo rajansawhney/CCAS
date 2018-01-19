@@ -57,6 +57,8 @@ NOTE : here orderId represents the orderId returned by the Supplier API on succe
 { supplierId, make, api_key, storefront, token }
 
 
+*All schemas support GET, POST, PUT and DELETE operations*
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
