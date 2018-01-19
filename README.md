@@ -222,7 +222,9 @@ You have successfully placed an order with CCAS!
 Once you place the order, you can view it's details using the link mentioned as part of the JSON object.
 
 
+
 **Making the CCAS API secure:**
+
 
 For security purposes, only CCAS customer service representatives can view all the orders.
 
@@ -235,32 +237,31 @@ http://localhost:3000/orders
 
 
 Provide the PIN as parameters. Add pin=1123 to get access.
-Like thisi:
+Like this:
 ```
 http://localhost:3000/orders?pin=1123
 ```
 
 You should get back an Orders Report
 
+
 ## Running the tests
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+To run tests, execute:
 
 ```
-Give an example
+npm run test
 ```
 
-### And coding style tests
+### Test endpoints:
 
-Explain what these tests test and why
+* Customer
+	
+	- GET a customer
+	- POST a customer
 
-```
-Give an example
-```
+Adding more test cases
+
 
 ## Authors
 
