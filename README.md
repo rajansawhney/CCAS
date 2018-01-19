@@ -105,29 +105,30 @@ Once you have all the servers up and running, let's begin to use the CCAS API!
 
 -- Open Postman 
 
--- Do a POST request on the customer endpoint:
+-- Do a POST request on the **/customer** endpoint:
 ```
 http://localhost:3000/customer
 ```
 --Go to Body in postman, select x-www-form-urlencoded and enter:
 			
-			name.firstName = Rajan
-			name.lastName = Saw
-			address.city = Eugene
-			address.state = Oregon
-			address.country = USA
+		name.firstName = Rajan
+		name.lastName = Saw
+		address.city = Eugene
+		address.state = Oregon
+		address.country = USA
 
 -- Hit send. You should get back a json object. Something like this:
 ```
-{ name: {
+{
+	name: {
 		firstName: 'Rajan', lastName: 'Saw' },
 		address: { 
 			city: 'Eugene', 
 			state: 'Oregon', 
 			country: 'USA' 
 		},
-_id: 5a602b8295701c26d5da35ce,
-__v: 0
+	_id: 5a602b8295701c26d5da35ce,
+	__v: 0
 }
 
 ```
@@ -145,7 +146,7 @@ Let's add two suppliers : ACME Autos and Rainier Transportation Solutions
 ```
 http://localhost:3000/supplier
 ```
--- POST request at the supplier endpoint and enter:
+-- POST request at the **/supplier** endpoint and enter:
 	
 	supplierId: 111
 	make: ACME Autos
@@ -165,20 +166,20 @@ http://localhost:3000/supplier
 -- Hit send again, and we should have something like this:
 ```
 [
-{
+ {
 	"_id": "5a60131fe720ba1cb706c26c",
 	"supplierId": 111,
 	"make": "ACME",
 	"api_key": "cascade.53bce4f1dfa0fe8e7ca126f91b35d3a6",
 	"__v": 0
-},
-{
+ },
+ {
 	"_id": "5a60144ce720ba1cb706c26d",
 	"supplierId": 222,
 	"make": "RTS",
 	"storefront": "ccas-bb9630c04f",
 	"__v": 0
-}
+ } 
 ]
 ```
 
@@ -221,20 +222,20 @@ You have successfully placed an order with CCAS!
 Once you place the order, you can view it's details using the link mentioned as part of the JSON object.
 
 
--- Making the CCAS API secure:
+**Making the CCAS API secure:**
 
 For security purposes, only CCAS customer service representatives can view all the orders.
 
-To view all orders, use the */orders* endpoint :
+To view all orders, use the **/orders** endpoint :
 ```
 http://localhost:3000/orders
 ```
 
-ACCESS DENIED!
+**ACCESS DENIED!**
 
 
 Provide the PIN as parameters. Add pin=1123 to get access.
-Like this
+Like thisi:
 ```
 http://localhost:3000/orders?pin=1123
 ```

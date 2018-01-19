@@ -51,9 +51,32 @@ describe('Customers', () => {
 						res.body.should.be.a('object');
 						res.body.should.have.property('errors');
 						res.body.errors.should.have.property('address.country');
-//						res.body.errors.address.country.should.have.property('kind').eql('required');
 				done();
 				});
+		});
+
+		it('it should POST a customer', () => {
+			let cust = {
+				name: {
+					firstName : "Albert",
+					lastName : "Einstein"
+				},
+				address: {
+					city: "Some city",
+					state: "Some state",
+					country: "USA"
+				}
+			}
+
+			chai.request(ccasServer)
+				.post('/customer')
+				.send(cust)
+				.end((err,res) => {
+						res.should.have.status(200);
+						res.body.should.be.a('object');
+						res.body.should.have.property('_id')
+					done();
+			});
 		});
 	});
 
