@@ -280,9 +280,10 @@ npm run test
 	
 	- GET a customer
 	- POST a customer
+	- PUT a customer
+	- DELETE a customer
 
-Adding more test cases
-
+Mocha + Chai used
 
 ## Authors
 
