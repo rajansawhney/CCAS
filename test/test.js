@@ -94,7 +94,7 @@ describe('Customers', () => {
 					country: "USA"
 				}
 			});
-			cust.save((err, book) => {
+			cust.save((err, cust) => {
 					chai.request(ccasServer)
 					.get('/customer/' + cust.id)
 					.send(cust)
@@ -116,6 +116,71 @@ describe('Customers', () => {
 		
 	});
 
+	/* Test the /PUT/:id route */
+
+	describe('/PUT/:id customer', () => {
+		it('it should UPDATE a customer given the id', (done) => {
+			let cust = new Customer({
+				name: {
+					firstName: "George",
+					lastName: "Martin"
+					},
+				address: {
+					city: "Seattle",
+					state: "WA",
+					country: "USA"
+				}
+			});
+			cust.save((err, cust) => {
+				chai.request(ccasServer)
+				.put('/customer/' + cust.id)
+				.send({
+					name: {
+						firstName: "George",
+						lastName: "Clooney"
+						},
+					address: {
+						city: "Seattle",
+						state: "WA",
+						country: "USA"
+					}
+				})
+				.end((err, res) => {
+					res.should.have.status(200);
+					res.body.should.be.a('object');
+					res.body.name.should.have.property('lastName').eql('Clooney');
+				done();
+				});
+			});
+		});
+	});
+
+	/* Delete */
+	describe('/DELETE/:id customer', () => {
+		it('it should DELETE a customer given the id', (done) => {
+			let cust = new Customer({
+				name: {
+					firstName: "George",
+					lastName: "Martin"
+					},
+				address: {
+					city: "Seattle",
+					state: "WA",
+					country: "USA"
+				}
+			});
+			cust.save((err, cust) => {
+				chai.request(ccasServer)
+				.delete('/customer/' + cust.id)
+				.end((err, res) => {
+					res.should.have.status(200);
+					res.body.should.be.a('object');
+					res.body.should.have.property('message').eql('Customer successfully deleted');
+				done();
+				});
+			});
+		});
+	});
 }); //end of customer testing
 
 

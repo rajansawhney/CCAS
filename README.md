@@ -90,6 +90,8 @@ Do a ```npm install``` to get all the required packages mentioned in package.jso
 
 ### Run the servers
 
+First step would be to start a MongoDB instance. Run ```mongod``` in a terminal
+
 Open the servers in different terminals. Each server runs on an individual terminal
 
 Start the servers
@@ -201,7 +203,7 @@ http://localhost:3000/order
 	carPackage: //some package eg:[lite, extreme, mtn]
 
 
--- Hit send and if you see something like this:
+-- Hit send and if you see something like this...:
 ```
 {
 	"message": "Order placed successfully",
@@ -219,7 +221,7 @@ http://localhost:3000/order
 }
 ```
 
-You have successfully placed an order with CCAS!
+...you have successfully placed an order with CCAS!
 
 Once you place the order, you can view it's details using the link mentioned as part of the JSON object.
 
@@ -245,6 +247,23 @@ http://localhost:3000/orders?pin=1123
 ```
 
 You should get back an Orders Report
+
+## Other REST functionalities ##
+
+You can update and delete objects in the Customer, Supplier and Order collection 
+using the \_id generated for these objects:
+
+For example:
+
+-- To update an object, do a PUT request against the endpoint and pass the \_id along. This way: 
+```
+http://localhost:3000/customer/5a601be5e720ba1cb706c26e
+```
+
+And enter the key and their values in the body with x-www-form-urlencoded.
+
+-- Similary to delete an object, do a DELETE request.
+
 
 
 ## Running the tests
