@@ -159,6 +159,8 @@ http://localhost:3000/supplier
 
 -- Hit send. ACME has been added! 
 
+![alt text](https://media.giphy.com/media/KqItY5h1jmP0k/200.gif)
+
 
 -- Now let's add RTS information:
 
@@ -238,6 +240,10 @@ http://localhost:3000/orders
 ```
 
 **ACCESS DENIED!**
+
+
+![alt text](https://media.giphy.com/media/11QzYvIrd3cZpe/giphy.gif)
+
 
 
 Provide the PIN as parameters. Add pin=1123 to get access.
