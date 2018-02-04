@@ -89,7 +89,7 @@ exports.create_an_order = function(req, res) {
 			if(cust){
 				//If customer's country is USA
 				if(!["usa","united states of america","united states"].includes(cust.address.country.toLowerCase()))
-					res.send("CCAS does provide shipping services to " + cust.address.country + ". Apologies")
+					res.send("CCAS doesn't provide shipping services to " + cust.address.country + ". Apologies")
 				if(["acme","acme autos"].includes((req.body.make).toLowerCase()))
 					new_order.supplierId = 111;
 				else if(["rainier","rainier transportation solution","rts"].includes((req.body.make).toLowerCase()))
