@@ -293,7 +293,7 @@ Mocha + Chai used
 
 ## Authors
 
-* **Rajan Sawhney** [rajan3012](https://github.com/rajan3012)
+* **Rajan Sawhney** [rajansawhney](https://github.com/rajansawhney)
 
 
 ## License
