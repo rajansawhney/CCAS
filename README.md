@@ -1,6 +1,6 @@
-# Central Cascade Automative Sales 
+# Rest API development < Nodejs + Express + Axios + Mocha > 
 
-CBT Nuggets Node.js project
+# Central Cascade Automative Sales 
 
 Our project manager has come to us with a brand new product-- an exciting online ordering
 system for custom vehicle orders. Since we have a lot of customers who like to choose options
@@ -31,8 +31,8 @@ appropriate supplier for delivery.
 				-	CCAS posts request to RTS with {nonce_token, model, package}
 				-	RTS replies back with {order_id} as response if nonce_token is valid
 
-	4.	Store order details for internal use: 
-		{order_id, customer_id, supplier_id, make, model, package} 
+	4.	Store order details for internal use:
+		{order_id, customer_id, supplier_id, make, model, package}
 			-	Supplier_id helps identify supplier. order_id and customer_id cannot uniquely 
 				identify the supplier. Eg: Both Acme and Rainier could have the same order_id
 			-	Make is unique in our case, but by convention it is better to use IDs than strings.
